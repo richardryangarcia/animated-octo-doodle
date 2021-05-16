@@ -34,5 +34,5 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 #configurations
-/src/configs/* 
+/src/appConfigs/* 
 /ca-certificate.crt
