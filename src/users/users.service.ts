@@ -6,6 +6,7 @@ import { EmployersRepository } from 'src/employers/employees.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
+import { User } from './users.entity';
 
 @Injectable()
 export class UsersService {
@@ -39,6 +40,10 @@ export class UsersService {
         const jwt = await this.jwtService.sign(payload)
         
         return jwt;
+    }
+
+     async getUserDetails(id: string): Promise<User> {
+        return this.usersRepository.findOne({id})
     }
 
     private async getEmployerIdFromEmail(email:string): Promise<number> {

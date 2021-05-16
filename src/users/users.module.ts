@@ -7,6 +7,7 @@ import { EmployersRepository } from 'src/employers/employees.repository';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { jwtConfig } from '../appConfigs/jwt.config';
+import { JwtStrategy } from './jwt-strategy';
 
 @Module({
   imports: [
@@ -15,6 +16,13 @@ import { jwtConfig } from '../appConfigs/jwt.config';
     TypeOrmModule.forFeature([UserRepository, EmployersRepository])
   ],
   controllers: [UsersController],
-  providers: [UsersService]
+  providers: [
+    UsersService,
+    JwtStrategy
+  ],
+  exports: [
+    JwtStrategy,
+    PassportModule
+  ]
 })
 export class UsersModule {}
