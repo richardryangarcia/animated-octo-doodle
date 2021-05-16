@@ -1,4 +1,5 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique , ManyToMany, JoinTable} from 'typeorm';
+import { Roles } from '../roles/roles.entity';
 
 @Entity()
 @Unique(['email'])
@@ -24,4 +25,12 @@ export class User extends BaseEntity {
   @Column()
   salt: string;
 
+  @ManyToMany(type => Roles)
+  @JoinTable({
+    name: 'users_roles',
+    joinColumn: { name: 'userId', referencedColumnName: 'id'},
+    inverseJoinColumn: { name: 'roleId', referencedColumnName: 'id'},
+  })
+  
+  roles: Roles[];
 }
