@@ -4,7 +4,7 @@ import { BuildingHours } from './buildingHours.entity';
 @Entity()
 export class Buildings extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column()
   name: string;

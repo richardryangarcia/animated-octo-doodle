@@ -4,13 +4,13 @@ import { Buildings } from '../buildings/buildings.entity';
 @Entity()
 export class Employers extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column()
   name: string;
 
   @Column()
-  email: string;
+  domain: string;
 
   @ManyToMany(type => Buildings)
   @JoinTable({

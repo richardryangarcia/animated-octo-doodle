@@ -9,10 +9,10 @@ export class BuildingHours extends BaseEntity {
   @Column()
   dayOfWeek: number;
 
-  @Column({type: 'timestamp'})
+  @Column({type: 'time', nullable: true})
   openTime: Date;
 
-  @Column({type: 'timestamp'})
+  @Column({type: 'time', nullable: true})
   closeTime: Date;
 
   @ManyToOne(() => Buildings, buildings => buildings.buildingHours)
