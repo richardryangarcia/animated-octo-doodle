@@ -7,7 +7,6 @@ import { RolesRepository } from 'src/roles/roles.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
-import { Roles } from 'src/roles/roles.entity';
 
 @Injectable()
 export class UsersService {
@@ -39,6 +38,7 @@ export class UsersService {
         if (!user || !await user.validatePassword(password)){
             throw new UnauthorizedException("Invalid User Credentials");
         } 
+        
         const payload: JwtPayload = {id: user.id}
 
         const jwt = await this.jwtService.sign(payload)
@@ -53,7 +53,7 @@ export class UsersService {
         const userDetails = new UserDetailsDto();
         userDetails.user = user;
         userDetails.buildings = employer.buildings;
-        
+
         return userDetails;
     }
 
@@ -82,6 +82,4 @@ export class UsersService {
     private async hashPassword(password:string, salt: string): Promise<string> {
         return bcrypt.hash(password, salt)
     }
-
-    private async
 }

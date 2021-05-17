@@ -16,4 +16,8 @@ export class Bookings extends BaseEntity {
 
   @Column({type: 'timestamp'})
   stopTime: Date;
+
+  async validateOwner(userId: string): Promise<boolean> {
+    return userId === this.userId;
+  }
 }
