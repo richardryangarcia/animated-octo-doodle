@@ -14,4 +14,11 @@ export class BookingsRepository extends Repository<Bookings>{
         newBooking.userId = userId;
         await newBooking.save();
     }
+
+    async getRoomBookingsByDate(roomId: number, date: Date): Promise<Bookings[]> {
+        const query = this.createQueryBuilder('bookings');
+        query.andWhere('Date(\"startTime\") = :date',  date);
+        query.orderBy('\"startTime\"')
+        return await query.getMany();
+    }
 }

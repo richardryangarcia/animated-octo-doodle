@@ -16,6 +16,12 @@ export class BookingsController {
       return this.bookingsService.getUserBookings(req.user.id);
     }
 
+    @Get('/:roomId')
+    @HttpCode(200)
+    roomBookings(@Param('roomId') roomId: number, @Body() date: Date): Promise<Bookings[]> {
+      return this.bookingsService.getRoomBookings(roomId, date);
+    }
+
     @Post()
     @HttpCode(201)
     createBooking(@Req() req, @Body() createBookingDto: CreateBookingDto): Promise<void> {

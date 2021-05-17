@@ -12,7 +12,11 @@ export class BookingsService {
       ) {}
 
     async getUserBookings(userId: string): Promise<Bookings[]> {
-        return this.bookingsRepository.find({userId});
+        return this.bookingsRepository.find({where: {userId}, order: {startTime: "ASC"}});
+    }
+
+    async getRoomBookings(roomId: number, date: Date): Promise<Bookings[]> {
+        return this.bookingsRepository.getRoomBookingsByDate(roomId, date)
     }
 
     async createUserBooking(userId:string, createBookingDto: CreateBookingDto): Promise<void> {
