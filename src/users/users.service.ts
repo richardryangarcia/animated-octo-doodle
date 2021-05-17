@@ -72,13 +72,6 @@ export class UsersService {
         }
     }
 
-    private async getDefaultRole(employerId): Promise<number> {
-        switch(employerId){
-            case 1:
-                return 
-        }
-    }
-
     private async hashPassword(password:string, salt: string): Promise<string> {
         return bcrypt.hash(password, salt)
     }

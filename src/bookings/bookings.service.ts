@@ -12,7 +12,7 @@ export class BookingsService {
       ) {}
 
     async getUserBookings(userId: string): Promise<Bookings[]> {
-        return this.bookingsRepository.find({userId})
+        return this.bookingsRepository.find({userId});
     }
 
     async createUserBooking(userId:string, createBookingDto: CreateBookingDto): Promise<void> {

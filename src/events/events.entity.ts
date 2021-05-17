@@ -1,4 +1,5 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Buildings } from '../buildings/buildings.entity';
 
 @Entity()
 export class Events extends BaseEntity {
@@ -19,4 +20,7 @@ export class Events extends BaseEntity {
 
   @Column()
   eventDate: Date;
+
+  @ManyToOne(() => Buildings, (building: Buildings) => building.events)
+  public building: Buildings;
 }

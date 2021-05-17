@@ -1,4 +1,5 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Buildings } from '../buildings/buildings.entity';
 
 @Entity()
 export class Rooms extends BaseEntity {
@@ -13,4 +14,7 @@ export class Rooms extends BaseEntity {
 
   @Column()
   primaryRoleId: number;
+
+  @ManyToOne(() => Buildings, (building: Buildings) => building.rooms)
+  public building: Buildings;
 }
