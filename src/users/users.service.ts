@@ -1,12 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthenticateUserDto } from './users.dto';
+import { AuthenticateUserDto, UserDetailsDto } from './users.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './users.repository';
 import { EmployersRepository } from 'src/employers/employees.repository';
+import { RolesRepository } from 'src/roles/roles.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
-import { User } from './users.entity';
+import { Roles } from 'src/roles/roles.entity';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +16,8 @@ export class UsersService {
         private usersRepository: UserRepository,
         @InjectRepository(EmployersRepository)
         private employersRepository: EmployersRepository,
+        @InjectRepository(RolesRepository)
+        private rolesRepository: RolesRepository,
         private jwtService: JwtService
       ) {}
 
@@ -23,8 +26,9 @@ export class UsersService {
         const employerId = await this.getEmployerIdFromEmail(email);
         const salt = await bcrypt.genSalt();
         const encryptedPassword = await this.hashPassword(password, salt);
+        const role = await this.rolesRepository.findOne({id: employerId});
 
-        return this.usersRepository.createUser(email, encryptedPassword, salt, employerId)
+        await this.usersRepository.createUser(email, encryptedPassword, salt, employerId, role)
     }
 
     async userSignIn(authenticateUserDto: AuthenticateUserDto): Promise<string> {
@@ -42,8 +46,15 @@ export class UsersService {
         return jwt;
     }
 
-     async getUserDetails(id: string): Promise<User> {
-        return this.usersRepository.findOne({id})
+     async getUserDetails(id: string): Promise<UserDetailsDto> {
+        const user = await this.usersRepository.findOne(id, { select: ["id", "employerId", "email"], relations: ["roles"] })
+        const employer = await this.employersRepository.findOne(user.employerId, {relations: ["buildings"]})
+
+        const userDetails = new UserDetailsDto();
+        userDetails.user = user;
+        userDetails.buildings = employer.buildings;
+        
+        return userDetails;
     }
 
     private async getEmployerIdFromEmail(email:string): Promise<number> {
@@ -61,7 +72,16 @@ export class UsersService {
         }
     }
 
+    private async getDefaultRole(employerId): Promise<number> {
+        switch(employerId){
+            case 1:
+                return 
+        }
+    }
+
     private async hashPassword(password:string, salt: string): Promise<string> {
         return bcrypt.hash(password, salt)
     }
+
+    private async
 }

@@ -20,7 +20,7 @@ export class User extends BaseEntity {
   @Column()
   salt: string;
 
-  @ManyToMany(type => Roles)
+  @ManyToMany(type => Roles, roles => roles.users, {cascade: true})
   @JoinTable({
     name: 'users_roles',
     joinColumn: { name: 'userId', referencedColumnName: 'id'},

@@ -1,9 +1,8 @@
 import { Controller, Post, Body, HttpCode, Res, Get, UseGuards, Param, Req } from '@nestjs/common';
 import { Response } from 'express';
 import { UsersService } from './users.service';
-import { AuthenticateUserDto } from './users.dto';
+import { AuthenticateUserDto, UserDetailsDto } from './users.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from './users.entity';
 
 @Controller('users')
 export class UsersController {
@@ -26,7 +25,7 @@ export class UsersController {
     @Get()
     @HttpCode(200)
     @UseGuards(AuthGuard())
-    userDetails(@Req() req): Promise<User> {
+    userDetails(@Req() req): Promise<UserDetailsDto> {
       return this.usersService.getUserDetails(req.user.id);
     }
 }

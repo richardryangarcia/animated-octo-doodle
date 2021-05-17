@@ -8,12 +8,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { jwtConfig } from '../appConfigs/jwt.config';
 import { JwtStrategy } from './jwt-strategy';
+import { RolesRepository } from 'src/roles/roles.repository';
 
 @Module({
   imports: [
     PassportModule.register({defaultStrategy: 'jwt'}),
     JwtModule.register(jwtConfig),
-    TypeOrmModule.forFeature([UserRepository, EmployersRepository])
+    TypeOrmModule.forFeature([UserRepository, EmployersRepository, RolesRepository])
   ],
   controllers: [UsersController],
   providers: [

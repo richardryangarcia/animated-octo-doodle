@@ -1,16 +1,18 @@
 import { ConflictException, InternalServerErrorException } from '@nestjs/common';
 import { Repository, EntityRepository } from 'typeorm';
 import { User } from './users.entity';
+import { Roles } from '../roles/roles.entity';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-  async createUser(email: string, password: string, salt: string, employerId: number): Promise<void> {
+  async createUser(email: string, password: string, salt: string, employerId: number, role: Roles): Promise<void> {
 
     const user = new User();
     user.email = email;
     user.password = password;
     user.salt = salt;
     user.employerId = employerId;
+    user.roles = [role];
 
     try {
         await user.save();
