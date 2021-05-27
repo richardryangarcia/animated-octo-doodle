@@ -12,11 +12,18 @@ $ yarn
 ## Running the app
 
 ```bash
-# development
-$ npm run start
 
-# production mode
-$ npm run start:prod
+# build application
+$ yarn build
+
+# start application
+$ yarn start
+
+# This app is also setup to run with Docker
+$ yarn build  
+$ docker build -t animated-octo-doodle:v1 .
+$ docker run -p 3000:3000 animated-octo-doodle:v1
+
 ```
 
 ## Client repo 
